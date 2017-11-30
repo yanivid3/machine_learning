@@ -228,7 +228,8 @@ def featureSelectionByWrapperMethod(_df_NoNulls, y):
 #main starts here
 
 #loadData
-working_dir = "/Users/Shiradvd/Desktop/ML/Exercise2"
+#working_dir = "/Users/Shiradvd/Desktop/ML/Exercise2"
+working_dir = "/Users/yanivy/OneDrive - Microsoft/Old Drive/Dropbox/לימודים 2018/AI/Homework/ai_course"
 df = pd.read_csv(working_dir+"/ElectionsData.csv", header=0)
 train, validate, test = np.split(df.sample(frac=1), [int(.6*len(df)), int(.8*len(df))])
 
