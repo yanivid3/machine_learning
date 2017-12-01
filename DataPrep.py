@@ -3,7 +3,7 @@
 """
 Created on Sat Nov 25 23:41:43 2017
 
-@author: Shiradvd
+@author: Shira and Yaniv
 """
 
 
@@ -27,23 +27,28 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.feature_selection import RFECV
 from sklearn.datasets import make_classification
 
+pd.set_option('display.height', 1000)
+pd.set_option('display.max_rows', 500)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
 
+# Convert category fields into numeric
 def typeModification(_df):
     # Identify which of the orginal features are objects
-    ObjFeat=df.keys()[_df.dtypes.map(lambda x: x=='object')]
+    ObjFeat=_df.keys()[_df.dtypes.map(lambda x: x=='object')]
     
     # Transform the original features to categorical &
     # Creat new 'int' features, resp.
     for f in ObjFeat:
         _df[f] = _df[f].astype("category")
         _df[f+"_Int"] = _df[f].cat.rename_categories(range(_df[f].nunique())).astype(int)
-        _df.loc[_df[f].isnull(), f+"_Int"] = np.nan #fix NaN conversion
+        _df.loc[_df[f].isnull(), f+"_Int"] = np.nan #fix NaN conversion from obj to int
 
     if 'Vote' in _df.columns:
        y = _df.Vote.values
        
     # Remove category fields
-    _df.dtypes[ObjFeat]
+    #_df.dtypes[ObjFeat]
     _df = _df.drop(ObjFeat, axis=1)
     return _df,y
 
@@ -229,9 +234,10 @@ def featureSelectionByWrapperMethod(_df_NoNulls, y):
 
 #loadData
 #working_dir = "/Users/Shiradvd/Desktop/ML/Exercise2"
-working_dir = "/Users/yanivy/OneDrive - Microsoft/Old Drive/Dropbox/לימודים 2018/AI/Homework/ai_course"
+working_dir = "/Users/yanivy/source/ai_course/Ex02"
 df = pd.read_csv(working_dir+"/ElectionsData.csv", header=0)
-train, validate, test = np.split(df.sample(frac=1), [int(.6*len(df)), int(.8*len(df))])
+#train, validate, test = np.split(df.sample(frac=1), [int(.6*len(df)), int(.8*len(df))])
+train = df
 
 #correct type of each attribute
 train,y = typeModification(train)
